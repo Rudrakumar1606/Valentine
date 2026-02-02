@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- 🎵 Background music (must be in HEAD) -->
+<audio id="bgMusic" src="music.mp3" preload="auto" loop></audio>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ffe3ec, #ffd6e8);
+    font-family: "Segoe UI Emoji","Segoe UI",Arial,sans-serif;
+    overflow: hidden;
+  }
+
+  .card {
+    background: white;
+    padding: 28px 24px 30px;
+    border-radius: 22px;
+    text-align: center;
+    width: 90%;
+    max-width: 380px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  }
+
+  h1 {
+    color: #333;
+    font-size: 20px;
+    margin: 12px 0 22px;
+  }
+
+  .buttons {
+    position: relative;
+    height: 160px;
+  }
+
+  button {
+    padding: 14px 26px;
+    font-size: 16px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  #yes {
+    background: #ff4d6d;
+    color: white;
+  }
+
+  #no {
+    position: absolute;
+    background: #f1f1f1;
+  }
+
+  .subtext {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #777;
+  }
+
+  .cat {
+    margin: 0 auto 6px;
+    width: 110px;
+    height: 90px;
+  }
+
+  /* 🌸 Flower rain */
+  .flower {
+    position: fixed;
+    top: -40px;
+    font-size: 28px;
+    animation: flowerFall linear forwards;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  @keyframes flowerFall {
+    from {
+      transform: translateY(-40px) rotate(0deg);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(110vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <!-- Cute cat SVG -->
+  <div class="cat">
+    <svg viewBox="0 0 200 160" width="110">
+      <polygon points="40,40 20,10 60,30" fill="#f2b37c"/>
+      <polygon points="160,40 180,10 140,30" fill="#f2b37c"/>
+      <circle cx="100" cy="80" r="55" fill="#f2b37c"/>
+      <circle cx="80" cy="80" r="5" fill="#333"/>
+      <circle cx="120" cy="80" r="5" fill="#333"/>
+      <polygon points="100,90 94,98 106,98" fill="#ff7b7b"/>
+      <path d="M135 40
+               C135 30,155 30,155 45
+               C155 30,175 30,175 45
+               C175 65,155 75,155 75
+               C155 75,135 65,135 45Z"
+            fill="#ff4d6d"/>
+    </svg>
+  </div>
+
+  <h1>Girl, will you be my Valentine? 💘</h1>
+
+  <div class="buttons">
+    <button id="yes" onclick="yesClicked()">Yes 💖</button>
+    <button id="no" onmouseenter="moveNo()" ontouchstart="moveNo()">No 🙈</button>
+  </div>
+
+  <div class="subtext">“No” seems a bit shy 😼</div>
+</div>
+
+<script>
+  let noClickCount = 0;
+  const maxNoClicks = 8;
+  let yesScale = 1;
+
+  const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("no");
+
+  function moveNo() {
+    noClickCount++;
+
+    noBtn.style.left = Math.random() * 260 + "px";
+    noBtn.style.top = Math.random() * 110 + "px";
+
+    yesScale += 0.16;
+    yesBtn.style.transform = `scale(${yesScale})`;
+    yesBtn.innerText = "Yes 😍💖";
+
+    if (noClickCount >= maxNoClicks) {
+      setTimeout(yesClicked, 700);
+    }
+  }
+
+  function createFlower() {
+    const flowers = ["🌸", "🌼", "🌺", "🌹"];
+    const flower = document.createElement("div");
+    flower.className = "flower";
+    flower.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+
+    flower.style.left = Math.random() * window.innerWidth + "px";
+    flower.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+    document.body.appendChild(flower);
+    setTimeout(() => flower.remove(), 6000);
+  }
+
+  function yesClicked() {
+    document.body.innerHTML = `
+      <div style="
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        background:linear-gradient(135deg,#ff4d6d,#ff8fab);
+        color:white;
+        text-align:center;
+        padding:20px;
+        font-size:26px;">
+        💖😻💖<br>
+        Yayyyy Girl!<br><br>
+        You are my Valentine 🥰❤️<br><br>
+        Forever & Always 💕
+      </div>`;
+
+    // 🌸 Start flowers
+    setInterval(createFlower, 300);
+
+    // 🎵 Play music (THIS NOW WORKS)
+    const music = document.getElementById("bgMusic");
+    if (music) {
+      music.volume = 0.35;
+      music.currentTime = 0;
+      music.play().catch(() => {});
+    }
+  }
+</script>
+
+</body>
+</html>
